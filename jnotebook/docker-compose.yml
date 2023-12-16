@@ -1,0 +1,10 @@
+services:
+    jnotebook:
+        build: .
+        ports: 
+            - "8888:8888"
+        volumes:
+            - local_notebooks_dir:/workspace
+volumes:
+    local_notebooks_dir:
+   
