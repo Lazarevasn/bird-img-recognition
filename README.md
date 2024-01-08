@@ -3,7 +3,7 @@
 ## Инференс модели:
 ### Подготовка:
 1. Скачать и распаковать архив с файлами репозитория в локальный каталог.
-2. Скачать и установить [Python 3.11] (https://www.python.org/downloads/).
+2. Скачать и установить [Python 3.11](https://www.python.org/downloads/).
 3. В локальной папке с файлами репозитория, установить и активировать виртуальное окружение:
    3.1. Открыть командную строку или терминал.
    3.2. Перейти в нужный локальный каталог.
@@ -12,7 +12,7 @@
 4. В виртуальном окружении установить необходимые библиотеки из файла _model\_inference/requirements.txt_, использовав команду **pip install -r model\_inference/requirements.txt**.
 
 Файл с весами и конфигурацией обученной модели _bird_recognition.h5_ будет установлен автоматически при первом использовании bird_predictor.py.
-Датасеты, использованные при обучении и тестировании модели, можно скачать с [Google Drive] (https://drive.google.com/drive/folders/1ZDlgOtVB-Jdkqt-cQrEdyl-QMCJwF2kq?usp=sharing).
+Датасеты, использованные при обучении и тестировании модели, можно скачать с [Google Drive](https://drive.google.com/drive/folders/1ZDlgOtVB-Jdkqt-cQrEdyl-QMCJwF2kq?usp=sharing).
 
 
 ### Запуск:
