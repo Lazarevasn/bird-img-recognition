@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import os,sys
-import gdown
+import requests
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.preprocessing import image
@@ -17,12 +17,18 @@ birds_dict = {
         6: 'Цыпленок'
     }
 
+def download_file_from_url(url, destination_path):
+    response = requests.get(url, stream=True)
+    
+    with open(destination_path, 'wb') as file:
+        for chunk in response.iter_content(chunk_size=128):
+            file.write(chunk)
+
 def model_upload():
   output = 'bird_recognition.h5'
   if not os.path.isfile(output):
-    file_id = '1-bWaePLw8owneHJnK2US7jcYnG5gaI5j'
-    url = f'https://drive.google.com/uc?id={file_id}'
-    gdown.download(url, output, quiet=False)
+    file_url = 'https://drive.google.com/uc?id=1-bWaePLw8owneHJnK2US7jcYnG5gaI5j'
+    download_file_from_url(file_url, output)
   model = load_model(output)
   return model
 
@@ -34,7 +40,7 @@ def preprocess_img(image_path):
   img_array = preprocess_input(img_array)
   return img_array
 
-def predict(model,img_array):
+def make_predictions(model,img_array):
   predictions = model.predict(img_array)
   score = np.max(predictions)
   kind = np.where(predictions==np.max(predictions))[1]
@@ -44,5 +50,5 @@ def predict(model,img_array):
 
 if __name__=="__main__":
   image_path=sys.argv[1]
-  results=predict(model_upload, preprocess_img(image_path))
+  results=make_predictions(model_upload(), preprocess_img(image_path))
   print(f"Класс: {birds_dict[results[1]]}, Результаты предсказания: {results[0]}")
