@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
 import os,sys
 import requests
 import numpy as np
-import tensorflow as tf
 from tensorflow.keras.preprocessing import image
-from tensorflow.keras.models import load_model
+from tensorflow.keras.models import load_model, Model
 from tensorflow.keras.applications.inception_v3 import preprocess_input
 
 birds_dict = {
@@ -24,30 +22,42 @@ def download_file_from_url(url:str, destination_path:str) -> None:
         for chunk in response.iter_content(chunk_size=128):
             file.write(chunk)
 
-def model_upload() -> tf.keras.Model:
-  weights = 'bird_recognition.h5'
-  if not os.path.isfile(weights):
-    file_url = 'https://drive.google.com/uc?id=1-bWaePLw8owneHJnK2US7jcYnG5gaI5j'
-    download_file_from_url(file_url, weights)
-  model = load_model(weights)
-  return model
+class Model:
 
-def preprocess_img(image_path:str) -> np.float32:
-  img = image.load_img(image_path, target_size=(224, 224))
-  img_array = image.img_to_array(img)
-  img_array = np.expand_dims(img_array, axis=0)
-  img_array = preprocess_input(img_array)
-  return img_array
+  def __init__(self, weights_path:str) -> None:
+    self.__weights_path = weights_path
+    self.__model = self.__initialize_model()
+  
+  def __download_model_weights(self) -> None:
+    if not os.path.isfile(self.__weights_path):
+      file_url = 'https://drive.google.com/uc?id=1-bWaePLw8owneHJnK2US7jcYnG5gaI5j'
+      download_file_from_url(file_url, self.__weights_path)
 
-def make_predictions(model:tf.keras.Model,img_array:np.float32) -> tuple[np.float32, np.int64]:
-  predictions = model.predict(img_array)
-  score = np.max(predictions)
-  kind = np.where(predictions==np.max(predictions))[1]
-  kind=kind[0]
-  return score,kind
+  def __initialize_model(self) -> Model:
+    self.__download_model_weights()
+    return load_model(self.__weights_path)
+
+  def make_predictions(self, img_array:np.ndarray) -> tuple[np.float32, np.int64]:
+    predictions = self.__model.predict(img_array)
+    score = np.max(predictions)
+    kind = np.where(predictions==np.max(predictions))[1]
+    kind=kind[0]
+    return score,kind
+  
+class Image:
+   
+  def __init__(self, image_path:str) -> None:
+    self.__image_path = image_path
+
+  def preprocess_image(self) -> np.ndarray:
+    img = image.load_img(self.__image_path, target_size=(224,224))
+    img_array = image.img_to_array(img)
+    img_array = np.expand_dims(img_array, axis=0)
+    return preprocess_input(img_array)
 
 if __name__=="__main__":
-  image_path = input("Введите имя файла: ")
-  #image_path=sys.argv[1]
-  results=make_predictions(model_upload(), preprocess_img(image_path))
+  model = Model('bird_recognition.h5')
+  bird_image = Image(sys.argv[1])
+  
+  results = model.make_predictions(img_array=bird_image.preprocess_image())
   print(f"Класс: {birds_dict[results[1]]}, Результаты предсказания: {results[0]}")
