@@ -16,10 +16,10 @@ birds_dict = {
     }
 
 def download_file_from_url(url:str, destination_path:str) -> None:
-    response = requests.get(url, stream=True)
+    response = requests.get(url, stream = True)
     
     with open(destination_path, 'wb') as file:
-        for chunk in response.iter_content(chunk_size=128):
+        for chunk in response.iter_content(chunk_size = 128):
             file.write(chunk)
 
 class Model:
@@ -41,23 +41,23 @@ class Model:
     predictions = self.__model.predict(img_array)
     score = np.max(predictions)
     kind = np.where(predictions==np.max(predictions))[1]
-    kind=kind[0]
-    return score,kind
+    kind = kind[0]
+    return score, kind
   
-class Image:
+class ImagePreprocessor:
    
-  def __init__(self, image_path:str) -> None:
-    self.__image_path = image_path
+  def __init__(self) -> None:
+    pass
 
-  def preprocess_image(self) -> np.ndarray:
-    img = image.load_img(self.__image_path, target_size=(224,224))
+  def preprocess_image(self, image_path) -> np.ndarray:
+    img = image.load_img(image_path, target_size=(224,224))
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
     return preprocess_input(img_array)
 
 if __name__=="__main__":
   model = Model('bird_recognition.h5')
-  bird_image = Image(sys.argv[1])
+  img_processor = ImagePreprocessor()
   
-  results = model.make_predictions(img_array=bird_image.preprocess_image())
+  results = model.make_predictions(img_array = img_processor.preprocess_image(sys.argv[1]))
   print(f"Класс: {birds_dict[results[1]]}, Результаты предсказания: {results[0]}")
