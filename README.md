@@ -38,7 +38,7 @@
 1. Склонировать репозиторий, используя:
 
    ```bash
-      git clone https://github.com/Lazarevasn/bird-img-recognition.git
+   git clone https://github.com/Lazarevasn/bird-img-recognition.git
    ```
 
 2. Установить расширение Dev Containers для VSC, если оно не было установлено ранее.
@@ -63,7 +63,7 @@ python bird_predictor.py chicken.jpg
 1. Склонировать репозиторий, используя:
 
    ```bash
-      git clone https://github.com/Lazarevasn/bird-img-recognition.git
+   git clone https://github.com/Lazarevasn/bird-img-recognition.git
    ```
 
 2. Открыть командную строку или терминал и перейти в подпапку /jnotebook.
