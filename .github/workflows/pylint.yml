@@ -8,9 +8,14 @@ jobs:
     steps:
     - name: Get repository code
       uses: actions/checkout@v4
+    - name: Get all changed .py files
+      id: changed-py-files
+      uses: tj-actions/changed-files@v42
       with:
-        ref: 'inference'
+        files: |
+           **.py
     - name: Set up Python 3.9
+      if: steps.changed-py-files.outputs.any_changed == 'true'
       uses: actions/setup-python@v3
       with:
         python-version: '3.9'
