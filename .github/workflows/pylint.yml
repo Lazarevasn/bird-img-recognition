@@ -8,6 +8,8 @@ jobs:
     steps:
     - name: Get repository code
       uses: actions/checkout@v4
+      with:
+        fetch-depth: '0'
     - name: Get all changed .py files
       id: changed-py-files
       uses: tj-actions/changed-files@v42
