@@ -8,14 +8,19 @@ jobs:
     steps:
     - name: Get repository code
       uses: actions/checkout@v4
-      with:
-        ref: ${{ github.event.pull_request.head.sha }}
     - name: Get all changed .py files
       id: changed-py-files
       uses: tj-actions/changed-files@v42
       with:
         files: |
            **.py
+    - name: List all changed files
+      env:
+        ALL_CHANGED_FILES: ${{ steps.changed-py-files.outputs.all_changed_files }}
+      run: |
+        for file in "$ALL_CHANGED_FILES"; do
+          echo "$file was changed"
+          done
     - name: Set up Python 3.9
       if: steps.changed-py-files.outputs.any_changed == 'true'
       uses: actions/setup-python@v3
