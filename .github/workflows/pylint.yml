@@ -9,7 +9,7 @@ jobs:
     - name: Get repository code
       uses: actions/checkout@v4
       with:
-        fetch-depth: '2'
+        ref: ${{ github.event.pull_request.head.sha }}
     - name: Get all changed .py files
       id: changed-py-files
       uses: tj-actions/changed-files@v42
