@@ -1,3 +1,4 @@
+"Module for working with the image in the form of an array"
 import numpy as np
 from keras.preprocessing import image
 from keras.applications.inception_v3 import preprocess_input

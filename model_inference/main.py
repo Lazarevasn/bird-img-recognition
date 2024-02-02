@@ -1,3 +1,4 @@
+"Module used for reading image path from the command line"
 import sys
 from modules.model_initialization import model_initializer
 from modules.image_preprocessing import image_preprocessor
@@ -17,5 +18,3 @@ if __name__=="__main__":
     img_processor = image_preprocessor.ImagePreprocessor()
     results = model.make_predictions(img_array = img_processor.preprocess_image(sys.argv[1]))
     print(f"Класс: {birds_dict[results[1]]}, Результаты предсказания: {results[0]}")
-
-

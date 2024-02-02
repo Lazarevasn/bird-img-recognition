@@ -1,3 +1,4 @@
+"Module used for loading the file from an URL"
 import requests
 
 def download_file_from_url(url: str, destination_path: str) -> None:

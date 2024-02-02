@@ -1,3 +1,4 @@
+"Module used to define whether the file with model weights has already been downloaded"
 import os
 import numpy as np
 from keras.models import load_model, Model
@@ -12,9 +13,9 @@ class BirdRecognitionModel:
         __model(Model): the model itself
 
       Methods:
-      __download_model_weights(self) -> None: Downloads the model weights from a file stored remotely 
-                                              into a local file.
-      __initialize_model(self) -> Model: Initializes the model loading its weights from a local file.
+      __download_model_weights(self) -> None: Downloads the model weights from a file stored 
+                                              remotely into a local file.
+      __initialize_model(self) -> Model: Initializes model loading its weights from a local file.
       make_predictions(self, img_array: ndarray) -> tuple[np.float32, np.int64]: Makes predictions 
                                                                 about the type of bird in the image.
     '''
@@ -71,3 +72,4 @@ class BirdRecognitionModel:
         kind = np.where(predictions==np.max(predictions))[1]
         kind = kind[0]
         return score, kind
+    
