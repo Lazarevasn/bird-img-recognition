@@ -2,11 +2,12 @@ name: linting
 
 on:
   push:
+    paths:
+    - '**.py'
   pull_request:
     paths:
     - '**.py'
   
-
 jobs:
   linting:
     runs-on: ubuntu-latest
